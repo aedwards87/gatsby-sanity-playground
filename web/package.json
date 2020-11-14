@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "sanity-gatsby-blog-web",
+  "name": "web",
   "version": "1.0.5",
-  "author": "Sanity <hello@sanity.io>",
+  "author": "Adam Edwards <aedwards@gmail.com>",
   "scripts": {
     "build": "gatsby build",
     "clean-cache": "gatsby clean",
