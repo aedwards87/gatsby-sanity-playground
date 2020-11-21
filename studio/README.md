@@ -1,1 +1,1 @@
-# sanity-gatsby-blog-studio
+# gatsby-sanity-playground-studio
