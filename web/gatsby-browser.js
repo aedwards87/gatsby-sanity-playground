@@ -1,7 +1,22 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/browser-apis/
- */
+import React from 'react';
+import Layout from './src/components/Layout/Layout';
+import { StoreProvider } from './src/hooks/useStore';
 
-// You can delete this file if you're not using it
+export const wrapRootElement = ({ element }) => {
+  const initialState = {
+    showNav: true,
+    showMenuNav: false,
+  };
+
+  return (
+    <StoreProvider initialState={initialState}>
+      {/* <ThemeProvider> */}
+      {element}
+      {/* </ThemeProvider> */}
+    </StoreProvider>
+  );
+};
+
+export const wrapPageElement = ({ element, props }) => (
+  <Layout {...props}>{element}</Layout>
+);

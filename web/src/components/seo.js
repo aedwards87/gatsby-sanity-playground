@@ -1,98 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
-import {StaticQuery, graphql} from 'gatsby'
-import {imageUrlFor} from '../lib/image-url'
-import {buildImageObj} from '../lib/helpers'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
+import { graphql, useStaticQuery } from 'gatsby';
+import { imageUrlFor } from '../lib/image-url';
+import { buildImageObj } from '../lib/helpers';
 
-function SEO ({description, lang, meta, keywords, title, image}) {
-  return (
-    <StaticQuery
-      query={detailsQuery}
-      render={data => {
-        const metaDescription = description || (data.site && data.site.description) || ''
-        const siteTitle = (data.site && data.site.title) || ''
-        const siteAuthor = (data.site && data.site.author && data.site.author.name) || ''
-        const metaImage = (image && image.asset) ? imageUrlFor(buildImageObj(image)).width(1200).url() : ''
-
-        return (
-          <Helmet
-            htmlAttributes={{lang}}
-            title={title}
-            titleTemplate={title === siteTitle ? '%s' : `%s | ${siteTitle}`}
-            meta={[
-              {
-                name: 'description',
-                content: metaDescription
-              },
-              {
-                property: 'og:title',
-                content: title
-              },
-              {
-                property: 'og:description',
-                content: metaDescription
-              },
-              {
-                property: 'og:type',
-                content: 'website'
-              },
-              {
-                property: 'og:image',
-                content: metaImage
-              },
-              {
-                name: 'twitter:card',
-                content: 'summary'
-              },
-              {
-                name: 'twitter:creator',
-                content: siteAuthor
-              },
-              {
-                name: 'twitter:title',
-                content: title
-              },
-              {
-                name: 'twitter:description',
-                content: metaDescription
-              }
-            ]
-              .concat(
-                keywords && keywords.length > 0
-                  ? {
-                    name: 'keywords',
-                    content: keywords.join(', ')
-                  }
-                  : []
-              )
-              .concat(meta)}
-          />
-        )
-      }}
-    />
-  )
-}
-
-SEO.defaultProps = {
-  lang: 'en',
-  meta: [],
-  keywords: []
-}
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.array,
-  keywords: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.string.isRequired
-}
-
-export default SEO
-
-const detailsQuery = graphql`
-  query DefaultSEOQuery {
-    site: sanitySiteSettings(_id: {eq: "siteSettings"}) {
+const SEO_QUERY = graphql`
+  query SEO_QUERY {
+    site: sanitySiteSettings(_id: { eq: "siteSettings" }) {
       title
       description
       keywords
@@ -101,4 +16,42 @@ const detailsQuery = graphql`
       }
     }
   }
-`
+`;
+
+function SEO({ children, lang = 'en', description, title, image }) {
+  const data = useStaticQuery(SEO_QUERY);
+  const metaDescription =
+    description || (data.site && data.site.description) || '';
+  const siteTitle = (data.site && data.site.title) || '';
+  // const metaImage =
+  //   image && image.asset
+  //     ? imageUrlFor(buildImageObj(image)).width(1200).url()
+  //     : '';
+
+  return (
+    <Helmet titleTemplate={title ? `%s | ${siteTitle}` : siteTitle}>
+      <html lang={lang} />
+      <title>{title || siteTitle}</title>
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <link rel="alternate icon" href="/favicon.ico" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta charSet="utf-8" />
+      <meta name="description" content={metaDescription} />
+      {/* {location && <meta property="og:url" content={location.href} />} */}
+      {/* <meta property="og:image" content={image || '/logo.svg'} /> */}
+      <meta property="og:title" content={title} key="ogtitle" />
+      <meta property="og:site_name" content={siteTitle} key="ogsitename" />
+      <meta property="og:description" content={metaDescription} key="ogdesc" />
+      {children}
+    </Helmet>
+  );
+}
+
+SEO.propTypes = {
+  description: PropTypes.string,
+  lang: PropTypes.string,
+  image: PropTypes.string,
+  title: PropTypes.string,
+};
+
+export default SEO;
