@@ -1,60 +1,48 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../components/Layout/Layout';
-import SEO from '../components/SEO';
 
-export const query = graphql`
-  query IndexPageQuery {
-    site: sanitySiteSettings(_id: { regex: "/(drafts.|)siteSettings/" }) {
+// Imported Components
+import Layout from '../components/Layout/Layout';
+import SEO from '../components/reusable/SEO';
+import GraphQLErrorList from '../components/reusable/GraphQLErrorList';
+
+// (_id: { regex: "/(drafts.|)siteSettings/" })
+
+export const INDEX_PAGE_QUERY = graphql`
+  query INDEX_PAGE_QUERY {
+    site: sanityCompanyDetails {
       title
-      description
-      keywords
+      # description
     }
   }
 `;
 
-const Index = ({ data }) => (
-  <Layout>
-    <SEO />
-    His
-  </Layout>
-);
+const Index = ({ data, errors }) => {
+  if (errors) {
+    return (
+      <Layout>
+        <GraphQLErrorList errors={errors} />
+      </Layout>
+    );
+  }
+
+  const { site } = data || {};
+
+  return (
+    <Layout>
+      <SEO description={site.description} />
+      His
+    </Layout>
+  );
+};
 
 export default Index;
 
-// import React from 'react'
-// import { graphql } from 'gatsby'
 // import {
 //   mapEdgesToNodes,
 //   filterOutDocsWithoutSlugs,
 //   filterOutDocsPublishedInTheFuture
 // } from '../lib/helpers'
-// import GraphQLErrorList from '../components/GraphQLErrorList'
-// import SEO from '../components/SEO'
-// import Layout from '../components/Layout/Layout'
-
-// export const query = graphql`
-//   # fragment SanityImage on SanityMainImage {
-//   #   crop {
-//   #     _key
-//   #     _type
-//   #     top
-//   #     bottom
-//   #     left
-//   #     right
-//   #   }
-//   #   hotspot {
-//   #     _key
-//   #     _type
-//   #     x
-//   #     y
-//   #     height
-//   #     width
-//   #   }
-//   #   asset {
-//   #     _id
-//   #   }
-//   # }
 
 //   query IndexPageQuery {
 //     site: sanitySiteSettings(_id: { regex: "/(drafts.|)siteSettings/" }) {
@@ -103,12 +91,6 @@ export default Index;
 //       .filter(filterOutDocsWithoutSlugs)
 //       .filter(filterOutDocsPublishedInTheFuture)
 //     : []
-
-//   if (!site) {
-//     throw new Error(
-//       'Missing "Site settings". Open the studio at http://localhost:3333 and add some content to "Site settings" and restart the development server.'
-//     )
-//   }
 
 //   return (
 //     <Layout>

@@ -4,12 +4,12 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --white: #ffffff;
     --black: #425466;
-    /* --primaryColorOne: ;
-    --primaryColortwo: ;
-    --primaryColorThree: ;
-    --primaryColorFour: ;
-    --primaryColorFive: ;
-    --primaryColorSix: ; */
+    --colorPrimaryOne: ;
+    --colorPrimaryTwo: ;
+    --colorPrimaryThree: ;
+    --colorPrimaryFour: ;
+    --colorPrimaryFive: ;
+    --colorPrimarySix: ;
   }
 `;
 

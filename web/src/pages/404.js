@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Imported components
-import SEO from '../components/SEO';
+import SEO from '../components/reusable/SEO';
 
 // Housing components
 const NotFoundPage = () => (

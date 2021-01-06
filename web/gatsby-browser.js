@@ -8,13 +8,7 @@ export const wrapRootElement = ({ element }) => {
     showMenuNav: false,
   };
 
-  return (
-    <StoreProvider initialState={initialState}>
-      {/* <ThemeProvider> */}
-      {element}
-      {/* </ThemeProvider> */}
-    </StoreProvider>
-  );
+  return <StoreProvider initialState={initialState}>{element}</StoreProvider>;
 };
 
 export const wrapPageElement = ({ element, props }) => (

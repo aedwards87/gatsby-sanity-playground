@@ -1,9 +1,9 @@
 import Layout from './Layout/Layout';
-import SEO from './SEO';
-import GraphQLErrorList from './GraphQLErrorList';
+import SEO from './reusable/SEO';
+import GraphQLErrorList from './reusable/GraphQLErrorList';
 import Header from './Header/Header';
-import MainNav from './Header/Nav/NavMenu';
-import MenuNav from './Header/Nav/NavMain';
+import MenuNav from './Header/Nav/NavMenu';
+import Nav from './Header/Nav/Nav';
 import Footer from './Footer/Footer';
 
 export {
@@ -11,7 +11,7 @@ export {
   SEO,
   GraphQLErrorList,
   Header,
-  MainNav,
+  Nav,
   MenuNav,
   Footer,
   // Footer,

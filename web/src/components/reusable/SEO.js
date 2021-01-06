@@ -2,27 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { graphql, useStaticQuery } from 'gatsby';
-import { imageUrlFor } from '../lib/image-url';
-import { buildImageObj } from '../lib/helpers';
+// import { imageUrlFor } from '../lib/image-url';
+// import { buildImageObj } from '../lib/helpers';
 
 const SEO_QUERY = graphql`
   query SEO_QUERY {
-    site: sanitySiteSettings(_id: { eq: "siteSettings" }) {
+    site: sanityCompanyDetails(_id: { eq: "companyDetails" }) {
       title
-      description
-      keywords
-      author {
-        name
-      }
+      # description
     }
   }
 `;
 
-function SEO({ children, lang = 'en', description, title, image }) {
-  const data = useStaticQuery(SEO_QUERY);
-  const metaDescription =
-    description || (data.site && data.site.description) || '';
-  const siteTitle = (data.site && data.site.title) || '';
+function SEO({ children, lang = 'en', description, title /* , image */ }) {
+  const { site } = useStaticQuery(SEO_QUERY);
+
+  const metaDescription = description || (site && site.description) || '';
+  const siteTitle = (site && site.title) || '';
   // const metaImage =
   //   image && image.asset
   //     ? imageUrlFor(buildImageObj(image)).width(1200).url()
@@ -50,7 +46,7 @@ function SEO({ children, lang = 'en', description, title, image }) {
 SEO.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
-  image: PropTypes.string,
+  // image: PropTypes.string,
   title: PropTypes.string,
 };
 

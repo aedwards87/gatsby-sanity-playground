@@ -1,9 +1,9 @@
-import { BiGridAlt as icon } from 'react-icons/bi'
+import { GrSecure as icon } from 'react-icons/gr'
 
 export default {
-  name: 'category',
+  name: 'policiesAndProcedures',
   type: 'document',
-  title: 'Category',
+  title: 'Policies & procedures',
   icon,
   fields: [
     {
@@ -13,7 +13,7 @@ export default {
     },
     {
       name: 'description',
-      type: 'text',
+      type: 'bodyPortableText',
       title: 'Description'
     }
   ]

@@ -1,7 +1,10 @@
+import { BiUser as icon } from 'react-icons/bi'
+
 export default {
   name: 'author',
   type: 'document',
   title: 'Author',
+  icon,
   fields: [
     {
       name: 'name',

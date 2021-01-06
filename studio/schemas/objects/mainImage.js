@@ -1,34 +1,37 @@
+// NOTE: Uncomment the commented code to view the data/props
+// import React from 'react'
+// const preview = (props) => <pre>{JSON.stringify(props, null, 2)}</pre> /* 2 is the indent */
+
 export default {
   name: 'mainImage',
-  type: 'image',
-  title: 'Image',
-  options: {
-    hotspot: true
-  },
+  type: 'object',
+  title: 'Main image',
   fields: [
     {
-      name: 'caption',
-      type: 'string',
-      title: 'Caption',
+      name: 'image',
+      type: 'image',
+      title: 'Image',
       options: {
-        isHighlighted: true
-      }
+        hotspot: true
+      },
+      validation: Rule => Rule.error('An image wthout an image isn\'t an image at all').required()
     },
     {
       name: 'alt',
       type: 'string',
       title: 'Alternative text',
       description: 'Important for SEO and accessiblity.',
-      validation: Rule => Rule.error('You have to fill out the alternative text.').required(),
       options: {
         isHighlighted: true
-      }
+      },
+      validation: Rule => Rule.error('You have to fill out the alternative text.').required()
     }
   ],
   preview: {
+    // component: preview,
     select: {
       imageUrl: 'asset.url',
-      title: 'caption'
+      title: 'alt'
     }
   }
 }

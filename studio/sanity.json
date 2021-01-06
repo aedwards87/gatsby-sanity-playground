@@ -17,7 +17,9 @@
     "dashboard-widget-structure-menu",
     "dashboard-widget-document-list",
     "dashboard-widget-netlify",
-    "@sanity/studio-hints"
+    "@sanity/color-input",
+    "@sanity/vision",
+    "@sanity/google-maps-input"
   ],
   "parts": [
     {
@@ -35,10 +37,6 @@
     {
       "implements": "part:@sanity/dashboard/config",
       "path": "./src/dashboardConfig.js"
-    },
-    {
-      "implements": "part:@sanity/default-layout/studio-hints-config",
-      "path": "./src/studioHintsConfig.js"
     }
   ]
 }

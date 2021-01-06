@@ -9,18 +9,6 @@ export function mapEdgesToNodes(data) {
   return data.edges.map((edge) => edge.node);
 }
 
-export function filterOutDocsWithoutSlugs({ slug }) {
-  return (slug || {}).current;
-}
-
-export function filterOutDocsPublishedInTheFuture({ publishedAt }) {
-  return !isFuture(publishedAt);
-}
-
-export function getBlogUrl(publishedAt, slug) {
-  return `/blog/${format(publishedAt, 'YYYY/MM')}/${slug.current || slug}/`;
-}
-
 export function buildImageObj(source = { asset: {} }) {
   const imageObj = {
     asset: { _ref: source.asset._ref || source.asset._id },

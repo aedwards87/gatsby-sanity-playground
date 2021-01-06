@@ -1,11 +1,7 @@
 import S from '@sanity/desk-tool/structure-builder'
-import { MdSettings } from "react-icons/md";
-import {
-  MdPerson,
-  MdDescription,
-  MdLocalOffer
-} from "react-icons/md"
+import { BiMessageError, BiImages, BiImage } from 'react-icons/bi'
 import IframePreview from '../previews/IframePreview'
+import siteSettings from './siteSettings'
 
 // Web preview configuration
 const remoteURL = 'https://sanity-gatsby-blog-web-n1ac82mr.netlify.app'
@@ -22,7 +18,7 @@ export const getDefaultDocumentNode = props => {
    * https://www.sanity.io/docs/structure-builder-reference#getdefaultdocumentnode-97e44ce262c9
    */
   const { schemaType } = props
-  if (schemaType == 'post') {
+  if (schemaType === 'post') {
     return S.document().views([
       S.view.form(),
       S.view
@@ -47,38 +43,106 @@ export default () =>
   S.list()
     .title('Content')
     .items([
-      S.listItem()
-        .title('Settings')
-        .icon(MdSettings)
-        .child(
-          S.editor()
-            .id('siteSettings')
-            .schemaType('siteSettings')
-            .documentId('siteSettings')
-        ),
+      siteSettings,
       S.divider(),
       S.listItem()
-        .title('Blog posts')
-        .icon(MdDescription)
-        .schemaType('post')
-        .child(S.documentTypeList('post').title('Blog posts')),
+        .title('About us')
+        .icon(BiMessageError)
+        .child(
+          S.editor()
+            .id('about')
+            .title('About us')
+            .schemaType('about')
+            .documentId('about')
+        ),
       S.listItem()
-        .title('Authors')
-        .icon(MdPerson)
-        .schemaType('author')
-        .child(S.documentTypeList('author').title('Authors')),
+        .title('Locations')
+        .schemaType('location')
+        .child(S.documentTypeList('location').title('Locations')),
       S.listItem()
-        .title('Categories')
-        .icon(MdLocalOffer)
-        .schemaType('category')
-        .child(S.documentTypeList('category').title('Categories')),
+        .title('Staff')
+        .schemaType('person')
+        .child(S.documentTypeList('person').title('Staff')),
+      S.listItem()
+        .title('Image gallery')
+        .icon(BiImages)
+        .child(
+          S.list()
+            .title('Image gallery')
+            .items([
+              S.listItem()
+                .title('All images')
+                .schemaType('imageGallery')
+                .child(S.documentTypeList('imageGallery').title('All images')),
+              S.divider(),
+              S.listItem()
+                .title('Images by location')
+                .icon(BiImage)
+                .child(
+                  S.documentTypeList('location')
+                    .title('Images by location')
+                    .child(id => {
+                      return (
+                        S.documentList()
+                          .title('Images')
+                          .schemaType('imageGallery')
+                        // Use a GROQ filter to get documents.
+                        // This filter checks for sampleProjects that has the
+                        // categoryId in its array of references
+                          .filter('_type == "imageGallery" && $id == location._ref')
+                          .params({ id })
+                      )
+                    })
+                )
+              // S.listItem()
+              //   .title('Staff by location')
+              //   .child(
+              //     S.documentTypeList('location')
+              //       .title('test')
+              //       .child(id => {
+              //         console.log({ id })
+              //         return (
+              //           S.documentList()
+              //             .title('Person')
+              //             .schemaType('person')
+              //           // Use a GROQ filter to get documents.
+              //           // This filter checks for sampleProjects that has the
+              //           // categoryId in its array of references
+              //             .filter('_type == "location" && $id == person._ref')
+              //             .params({ id })
+              //         )
+              //       })
+              //   )
+            ])
+        ),
+
       // `S.documentTypeListItems()` returns an array of all the document types
       // defined in schema.js. We filter out those that we have
       // defined the structure above.
       ...S.documentTypeListItems().filter(
         listItem =>
-          !['category', 'author', 'post', 'siteSettings'].includes(
+          ![
+            'siteDetails',
+            'about',
+            'location',
+            'person',
+            'frontPage',
+            'companyDetails',
+            'brand',
+            'socialMedia',
+            'feedback',
+            'policiesAndProcedures',
+            'imageGallery'
+          ].includes(
             listItem.getId()
           )
-      )
+      ),
+      S.listItem()
+        .title('Feedback')
+        .schemaType('feedback')
+        .child(S.documentTypeList('feedback').title('What parents say about us')),
+      S.listItem()
+        .title('Policies & procedures')
+        .schemaType('policiesAndProcedures')
+        .child(S.documentTypeList('policiesAndProcedures').title('Policies & procedures'))
     ])
